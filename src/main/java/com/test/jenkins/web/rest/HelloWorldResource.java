@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/jenkins-test/v1")
 public class HelloWorldResource {
-
+//Sample Request Mapping
     @GetMapping(value = "/hello")
     String getMessage(){
         return "Jenkins Deployment Test.!";
