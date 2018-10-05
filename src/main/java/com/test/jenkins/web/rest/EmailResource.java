@@ -11,12 +11,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/jenkins-test/v1")
-public class HelloWorldResource {
+public class EmailResource {
 
     private final EmailService emailService;
 
     @Autowired
-    public HelloWorldResource(EmailService emailService) {
+    public EmailResource(EmailService emailService) {
         this.emailService = emailService;
     }
 
