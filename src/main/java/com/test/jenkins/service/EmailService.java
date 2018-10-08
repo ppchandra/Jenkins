@@ -2,13 +2,11 @@ package com.test.jenkins.service;
 
 import com.test.jenkins.model.EmailRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -16,33 +14,26 @@ import javax.mail.util.ByteArrayDataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender emailSender;
-    private final SpringTemplateEngine templateEngine;
+    @Autowired
+    private JavaMailSender emailSender;
 
     @Autowired
-    public EmailService(JavaMailSender emailSender, SpringTemplateEngine templateEngine) {
-        this.emailSender = emailSender;
-        this.templateEngine = templateEngine;
-    }
+    private SpringTemplateEngine templateEngine;
 
     public void sendEmail(EmailRequest emailRequest) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message,MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, "UTF-8");
 
-        Map model = new HashMap();
-        model.put("name", "Customer");
-        model.put("finalContent",emailRequest.getFinalContent());
-        model.put("signature", "The Standard Service Center");
-
         Context context = new Context();
-        context.setVariables(model);
+        context.setVariable("name","Customer");
+        context.setVariable("finalContent",emailRequest.getFinalContent());
+        context.setVariable("signature","Service Center");
         String html = templateEngine.process("email-template", context);
 
         messageHelper.setText(html,true);

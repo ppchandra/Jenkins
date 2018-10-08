@@ -2,9 +2,8 @@ package com.test.jenkins.configure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.templatemode.StandardTemplateModeHandlers;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 @Configuration
 public class ThymeleafConfig {
@@ -20,8 +19,9 @@ public class ThymeleafConfig {
     public SpringResourceTemplateResolver htmlTemplateResolver(){
         SpringResourceTemplateResolver emailTemplateResolver = new SpringResourceTemplateResolver();
         emailTemplateResolver.setPrefix("classpath:/templates/");
+        emailTemplateResolver.setCacheable(false);
         emailTemplateResolver.setSuffix(".html");
-        emailTemplateResolver.setTemplateMode(StandardTemplateModeHandlers.LEGACYHTML5.getTemplateModeName());
+        emailTemplateResolver.setTemplateMode("HTML5");
         emailTemplateResolver.setCharacterEncoding("UTF-8");
         return emailTemplateResolver;
     }
